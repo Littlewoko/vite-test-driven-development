@@ -5,9 +5,9 @@ import { VICTORY_MESSAGE, DEFEAT_MESSAGE } from "@/settings";
 describe('WorldeBoard', () => {
   const wordOfTheDay = "TESTS";
 
-  let wrapper : ReturnType<typeof mount>;
+  let wrapper: ReturnType<typeof mount>;
   beforeEach(() => {
-    wrapper = mount(WordleBoard, { props: { wordOfTheDay } }) 
+    wrapper = mount(WordleBoard, { props: { wordOfTheDay } })
   })
 
   async function playerSubmitsGuess(guess: string) {
@@ -24,7 +24,7 @@ describe('WorldeBoard', () => {
 
   test("a defeat message appears if the user makes a guess that is incorrect", async () => {
     await playerSubmitsGuess("WRONG");
-    
+
     expect(wrapper.text()).toContain(DEFEAT_MESSAGE);
   })
 
@@ -36,9 +36,9 @@ describe('WorldeBoard', () => {
   });
 
   test("if a word of the day provided does not have exactly 5 letters then a warning is emitted", async () => {
-    vi.spyOn(console, "warn");
-    
-    mount(WordleBoard, { props: { wordOfTheDay: "brad" } }) 
+    console.warn = vi.fn();
+
+    mount(WordleBoard, { props: { wordOfTheDay: "brad" } })
 
     expect(console.warn).toHaveBeenCalled();
   })
