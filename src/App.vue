@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
+import WorldeBoard from "./components/WorldeBoard.vue";
 </script>
 
 <template>
-  <HelloWorld msg="You did it!" />
+  <WorldeBoard msg="You did it!" />
 </template>
 
 
