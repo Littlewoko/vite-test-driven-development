@@ -1,6 +1,6 @@
 import { VueWrapper, mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
-import { VICTORY_MESSAGE, DEFEAT_MESSAGE } from "@/settings";
+import { VICTORY_MESSAGE, DEFEAT_MESSAGE, WORD_SIZE } from "@/settings";
 
 describe('Wordle Board', () => {
   const wordOfTheDay = "TESTS";
@@ -44,7 +44,7 @@ describe('Wordle Board', () => {
 
     test.each( // string formatting not working
       [
-        { wordOfTheDay: "BRAD", reason: "Word of the day must be exactly 5 letters long" },
+        { wordOfTheDay: "BRAD", reason: `Word of the day must be exactly 5 letters long` },
         { wordOfTheDay: "tests", reason: "Word of the day must be all uppercase letters" },
         { wordOfTheDay: "ABCDE", reason: "Word of the day must be a real english word" },
       ]
@@ -55,7 +55,7 @@ describe('Wordle Board', () => {
     })
 
 
-    test("no warning is emitted if the word of the day is a real english word, all in upper case containing exactly five characters", async () => {
+    test(`no warning is emitted if the word of the day is a real english word, all in upper case containing exactly 5 characters`, async () => {
       mount(WordleBoard, { props: { wordOfTheDay } })
 
       expect(console.warn).not.toHaveBeenCalled();
@@ -63,7 +63,7 @@ describe('Wordle Board', () => {
   })
 
   describe("player guess validation", () => {
-    test("player guesses are limited to 5 letters", async () => {
+    test(`player guesses are limited to 5 letters`, async () => {
         await playerSubmitsGuess(wordOfTheDay + "EXTRA");
 
         expect(wrapper.text()).toContain(VICTORY_MESSAGE);
