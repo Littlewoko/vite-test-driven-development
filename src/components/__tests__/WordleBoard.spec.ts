@@ -12,7 +12,7 @@ describe('WorldeBoard', () => {
     // Act
     const guessInput = wrapper.find("input[type=text]");
     await guessInput.setValue("TESTS");
-    guessInput.trigger("keydown.enter");
+    await guessInput.trigger("keydown.enter");
 
     // Assert
     expect(wrapper.text()).toContain(VICTORY_MESSAGE);
@@ -23,10 +23,15 @@ describe('WorldeBoard', () => {
 
     const guessInput = wrapper.find("input[type=text]");
     await guessInput.setValue("WRONG");
-    guessInput.trigger("keydown.enter");
+    await guessInput.trigger("keydown.enter");
 
     expect(wrapper.text()).toContain(DEFEAT_MESSAGE);
   })
 
-  test.todo("no end-of-game message appears if the user has not yet made a guess");
+  test("no end-of-game message appears if the user has not yet made a guess", async () => {
+    const wrapper = mount(WordleBoard, { props: { wordOfTheDay } })
+
+    expect(wrapper.text()).not.toContain(VICTORY_MESSAGE);
+    expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
+  });
 })
