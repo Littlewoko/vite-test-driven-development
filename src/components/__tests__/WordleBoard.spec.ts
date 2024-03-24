@@ -50,4 +50,12 @@ describe('WorldeBoard', () => {
 
     expect(console.warn).toHaveBeenCalled();
   })
+
+  test("if the word of the day is not a real english word then a warning is emtted", async () => {
+    console.warn = vi.fn();
+
+    mount(WordleBoard, { props: { wordOfTheDay: "ABCDE" } })
+
+    expect(console.warn).toHaveBeenCalled();
+  })
 })
