@@ -9,7 +9,10 @@ import englishWords from "@/englishWordsWith5Letters.json";
 defineProps({
   wordOfTheDay: {
     type: String,
-    validator: (wordGiven: string) => englishWords.map(word => word.toUpperCase()).includes(wordGiven),
+    validator: (wordGiven: string) =>
+      englishWords
+        .map((word: string) => word.toUpperCase())
+        .includes(wordGiven),
   },
 });
 
@@ -19,11 +22,22 @@ const guessSubmitted = ref("");
 const formattedGuessInProgress = computed({
   get() {
     return guessInProgress.value;
-  }, 
-  set(rawValue : string) {
+  },
+  set(rawValue: string) {
     guessInProgress.value = rawValue.slice(0, WORD_SIZE);
-  }
-})
+  },
+});
+
+const onSubmit = () => {
+  if (
+    !englishWords
+      .map((word: string) => word.toUpperCase())
+      .includes(formattedGuessInProgress.value.toUpperCase())
+  )
+    return;
+
+  guessSubmitted.value = guessInProgress.value;
+};
 </script>
 
 <template>
@@ -31,7 +45,7 @@ const formattedGuessInProgress = computed({
     type="text"
     maxlength="5"
     v-model="formattedGuessInProgress"
-    @keydown.enter="guessSubmitted = guessInProgress"
+    @keydown.enter="onSubmit"
   />
   <p v-if="guessSubmitted.length > 0">
     {{ guessSubmitted === wordOfTheDay ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
