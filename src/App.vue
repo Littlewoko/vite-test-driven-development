@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import WorldeBoard from "./components/WorldeBoard.vue";
+import WordleBoard from "./components/WordleBoard.vue";
 </script>
 
 <template>
-  <WorldeBoard msg="You did it!" />
+  <WordleBoard word-of-the-day="You did it!" />
 </template>
 
 
