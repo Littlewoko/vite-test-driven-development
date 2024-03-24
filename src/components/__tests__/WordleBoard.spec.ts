@@ -38,7 +38,15 @@ describe('WorldeBoard', () => {
   test("if a word of the day provided does not have exactly 5 letters then a warning is emitted", async () => {
     console.warn = vi.fn();
 
-    mount(WordleBoard, { props: { wordOfTheDay: "brad" } })
+    mount(WordleBoard, { props: { wordOfTheDay: "BRAD" } })
+
+    expect(console.warn).toHaveBeenCalled();
+  })
+
+  test("if the word of the day is not all uppercase then a warning is emitted", async () => {
+    console.warn = vi.fn();
+
+    mount(WordleBoard, { props: { wordOfTheDay: wordOfTheDay.toLowerCase() } })
 
     expect(console.warn).toHaveBeenCalled();
   })
