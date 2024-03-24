@@ -58,4 +58,12 @@ describe('WorldeBoard', () => {
 
     expect(console.warn).toHaveBeenCalled();
   })
+
+  test("no warning is emitted if the word of the day is a real english word, all in upper case containing exactly five characters", async () => {
+    console.warn = vi.fn();
+
+    mount(WordleBoard, { props: { wordOfTheDay } })
+
+    expect(console.warn).not.toHaveBeenCalled();
+  })
 })
