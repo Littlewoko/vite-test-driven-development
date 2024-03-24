@@ -38,24 +38,24 @@ describe('Wordle Board', () => {
   })
 
   describe("word of the day validation", () => {
+    beforeEach(() => {
+      console.warn = vi.fn();
+    })
+
     test.each( // string formatting not working
       [
-        {wordOfTheDay: "BRAD", reason: "Word of the day must be exactly 5 letters long"},
-        {wordOfTheDay: "tests", reason: "Word of the day must be all uppercase letters"},
-        {wordOfTheDay: "ABCDE", reason: "Word of the day must be a real english word"},
+        { wordOfTheDay: "BRAD", reason: "Word of the day must be exactly 5 letters long" },
+        { wordOfTheDay: "tests", reason: "Word of the day must be all uppercase letters" },
+        { wordOfTheDay: "ABCDE", reason: "Word of the day must be a real english word" },
       ]
-    )('if $wordOfTheDay is provided then a warning is emitted because $reason', async ({wordOfTheDay}) => {
-      console.warn = vi.fn();
-
+    )('if $wordOfTheDay is provided then a warning is emitted because $reason', async ({ wordOfTheDay }) => {
       mount(WordleBoard, { props: { wordOfTheDay } })
 
       expect(console.warn).toHaveBeenCalled();
     })
-    
+
 
     test("no warning is emitted if the word of the day is a real english word, all in upper case containing exactly five characters", async () => {
-      console.warn = vi.fn();
-
       mount(WordleBoard, { props: { wordOfTheDay } })
 
       expect(console.warn).not.toHaveBeenCalled();
