@@ -5,9 +5,12 @@ import { ref } from "vue";
 // constants
 import { VICTORY_MESSAGE, DEFEAT_MESSAGE } from "@/settings";
 
-defineProps<{
-  wordOfTheDay: string;
-}>();
+defineProps({
+  wordOfTheDay: {
+    type: String, 
+    validator: (wordGiven: string) => wordGiven.length === 5
+  }
+})
 
 const guessInProgress = ref("");
 const guessSubmitted = ref("");
