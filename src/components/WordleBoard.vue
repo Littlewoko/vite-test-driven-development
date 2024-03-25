@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // vue imports
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 
 // constants
 import { VICTORY_MESSAGE, DEFEAT_MESSAGE, WORD_SIZE } from "@/settings";
@@ -16,38 +16,35 @@ defineProps({
   },
 });
 
-const guessInProgress = ref("");
+const guessInProgress = ref<string>("");
 const guessSubmitted = ref("");
 
-const formattedGuessInProgress = computed({
-  get() {
-    return guessInProgress.value;
-  },
-  set(rawValue: string) {
-    guessInProgress.value = rawValue
-    .slice(0, WORD_SIZE)
-    .toUpperCase()
-    .replace(/[^A-Z]+/gi, "");
-  },
-});
-
-const onSubmit = () => {
+const onSubmit = () : void => {
   if (
     !englishWords
       .map((word: string) => word.toUpperCase())
-      .includes(formattedGuessInProgress.value.toUpperCase())
+      .includes(guessInProgress.value.toUpperCase())
   )
     return;
 
-  guessSubmitted.value = guessInProgress.value;
+  guessSubmitted.value = guessInProgress.value ?? "";
 };
+
+watch(guessInProgress, (newVal) => {
+  newVal = newVal ?? "";
+  // guessInProgress.value = guessInProgress.value ?? "";
+
+guessInProgress.value = newVal
+    .slice(0, WORD_SIZE)
+    .toUpperCase()
+    .replace(/[^A-Z]+/gi, "");
+})
 </script>
 
 <template>
   <input
     type="text"
-    maxlength="5"
-    v-model="formattedGuessInProgress"
+    v-model="guessInProgress"
     @keydown.enter="onSubmit"
   />
   <p v-if="guessSubmitted.length > 0">
