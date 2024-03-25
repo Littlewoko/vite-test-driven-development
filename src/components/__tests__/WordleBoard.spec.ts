@@ -48,7 +48,7 @@ describe('Wordle Board', () => {
         { wordOfTheDay: "tests", reason: "Word of the day must be all uppercase letters" },
         { wordOfTheDay: "ABCDE", reason: "Word of the day must be a real english word" },
       ]
-    )('if $wordOfTheDay is provided then a warning is emitted because $reason', async ({ wordOfTheDay }) => {
+    )('if $s is provided then a warning is emitted because $s', async ({ wordOfTheDay }) => {
       mount(WordleBoard, { props: { wordOfTheDay } })
 
       expect(console.warn).toHaveBeenCalled();
@@ -64,17 +64,24 @@ describe('Wordle Board', () => {
 
   describe("player guess validation", () => {
     test(`player guesses are limited to 5 letters`, async () => {
-        await playerSubmitsGuess(wordOfTheDay + "EXTRA");
+      await playerSubmitsGuess(wordOfTheDay + "EXTRA");
 
-        expect(wrapper.text()).toContain(VICTORY_MESSAGE);
+      expect(wrapper.text()).toContain(VICTORY_MESSAGE);
     });
+
     test("player guesses can only be submitted if they are real words", async () => {
       await playerSubmitsGuess("ABCDE");
 
       expect(wrapper.text()).not.toContain(VICTORY_MESSAGE);
       expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
     });
-    test.todo("player guesses are not case sensitive");
+
+    test("player guesses are not case sensitive", async () => {
+      await playerSubmitsGuess(wordOfTheDay.toLowerCase());
+
+      expect(wrapper.text()).toContain(VICTORY_MESSAGE);
+    });
+    
     test.todo("playuer guesses can only contain characters");
   })
 })
