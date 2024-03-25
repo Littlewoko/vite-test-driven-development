@@ -81,7 +81,11 @@ describe('Wordle Board', () => {
 
       expect(wrapper.text()).toContain(VICTORY_MESSAGE);
     });
-    
-    test.todo("playuer guesses can only contain characters");
+
+    test("playuer guesses can only contain characters", async () => {
+      await playerSubmitsGuess("H£A7T");
+
+      expect(wrapper.find<HTMLInputElement>("input[type=text]").element.value).toEqual("HAT");
+    });
   })
 })
