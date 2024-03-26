@@ -48,7 +48,7 @@ const keepFocus = (e: Event): void => {
 </script>
 
 <template>
-  <WordleGuessDisplay :guess="guessInProgress" />
+  <WordleGuessDisplay v-if="!disabled" :guess="guessInProgress" />
 
   <input
     class="input"
