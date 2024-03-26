@@ -275,4 +275,6 @@ describe('Wordle Board', () => {
       expect(actualFeedback).toEqual(expectedFeedback);
     });
   })
+
+  test.todo("Implement on screen keyboard that shows which letters player has used");
 })
