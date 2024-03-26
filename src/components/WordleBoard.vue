@@ -42,7 +42,7 @@ const onSubmit = (guess: string): void => {
     v-for="index in MAX_GUESSES_COUNT"
     :key="`${index}`"
   >
-    <WordleGuessDisplay :guess="guessesSubmitted[index - 1] ?? ''" :should-flip="true"/>
+    <WordleGuessDisplay :guess="guessesSubmitted[index - 1] ?? ''" :answer="wordOfTheDay"/>
   </template>
   
   <br />

@@ -3,9 +3,18 @@
 import { WORD_SIZE } from "@/settings";
 
 // constants
-withDefaults(defineProps<{ guess: string; shouldFlip?: boolean }>(), {
-  shouldFlip: false,
-});
+const props = defineProps<{ guess: string; answer?: string }>()
+
+const getFeedback = (letter : string, position: number) => {
+  if(!props.answer || !letter || letter === ' ') return null;
+  
+
+  if(letter === props.answer[position]) return 'correct';
+
+  if(props.answer.includes(letter)) return 'almost';
+
+  return 'incorrect'
+}
 </script>
 
 <template>
@@ -13,9 +22,9 @@ withDefaults(defineProps<{ guess: string; shouldFlip?: boolean }>(), {
     <li
       v-for="(letter, index) in guess.padEnd(WORD_SIZE, ' ')"
       :key="`${letter}-${index}`"
-      :class="{ 'with-flips': shouldFlip && letter !== ' ' }"
+      :class="{ 'with-flips': answer && letter !== ' ' }"
       :data-letter="letter"
-      :data-letter-feedback="shouldFlip && letter !== ' ' ? 'correct' : null"
+      :data-letter-feedback="getFeedback(letter, index)"
       class="letter"
       v-text="letter"
     />
