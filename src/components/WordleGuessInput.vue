@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // vue imports
-import { ref, watch } from "vue";
+import { ref, watch, reactive } from "vue";
 
 // constants
 import { WORD_SIZE } from "@/settings";
@@ -12,6 +12,7 @@ import WordleGuessDisplay from "./WordleGuessDisplay.vue";
 const guessInProgress = ref<string>("");
 const hasFailedValidation = ref<boolean>(false);
 const shakeTimeout = ref<NodeJS.Timeout | null>(null);
+const guessHistory = reactive<string[]>([]);
 
 withDefaults(defineProps<{ disabled?: boolean }>(), { disabled: false });
 
@@ -24,11 +25,11 @@ const onSubmit = (): void => {
     clearTimeout(shakeTimeout.value);
   }
 
-  if (
-    !englishWords
+  const isNotRealWord = !englishWords
       .map((word: string) => word.toUpperCase())
       .includes(guessInProgress.value.toUpperCase())
-  ) {
+
+  if (isNotRealWord || guessHistory.includes(guessInProgress.value)) {
     hasFailedValidation.value = true;
 
     shakeTimeout.value = setTimeout(
@@ -40,6 +41,7 @@ const onSubmit = (): void => {
   }
 
   emit("guess-submitted", guessInProgress.value);
+  guessHistory.push(guessInProgress.value);
   guessInProgress.value = "";
 };
 

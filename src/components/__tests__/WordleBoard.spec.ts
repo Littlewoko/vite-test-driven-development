@@ -14,9 +14,14 @@ describe('Wordle Board', () => {
   async function playerTypesGuess(guess: string) {
     await wrapper.find("input[type=text]").setValue(guess);
   }
+
+  async function playerSubmitsGuess() {
+    await wrapper.find("input[type=text]").trigger("keydown.enter");
+  }
+
   async function playerTypesAndSubmitsGuess(guess: string) {
     await playerTypesGuess(guess);
-    await wrapper.find("input[type=text]").trigger("keydown.enter");
+    await playerSubmitsGuess();
   }
 
   describe.each(
@@ -29,8 +34,17 @@ describe('Wordle Board', () => {
     )
   )(`a defeat message appears if the player makes ${MAX_GUESSES_COUNT} incorrect guesses`, async ({ numberOfGuesses, shouldSeeDefeatMessage }) => {
     test(`therefor for ${numberOfGuesses}, a defeat message should ${shouldSeeDefeatMessage ? '' : 'not'} appear`, async () => {
+      const guesses = [
+        "HELLO",
+        "GUESS",
+        "MAKER",
+        "HATER",
+        "CODER",
+        "MANEB"
+      ]
+      
       for (let i = 0; i < numberOfGuesses; i++) {
-        await playerTypesAndSubmitsGuess("WRONG");
+        await playerTypesAndSubmitsGuess(guesses[i]);
       }
 
       if (shouldSeeDefeatMessage) {
@@ -118,7 +132,7 @@ describe('Wordle Board', () => {
       expect(wrapper.text()).toContain(VICTORY_MESSAGE);
     });
 
-    test("playuer guesses can only contain characters", async () => {
+    test("player guesses can only contain characters", async () => {
       await playerTypesAndSubmitsGuess("H£A7T");
 
       expect(wrapper.find<HTMLInputElement>("input[type=text]").element.value).toEqual("HAT");
@@ -151,6 +165,13 @@ describe('Wordle Board', () => {
       await playerTypesAndSubmitsGuess(wordOfTheDay);
 
       expect(wrapper.find("input[type=text").attributes("disabled")).not.toBeUndefined();
+    })
+
+    test("player cannot submit guess that has already been submitted", async () => {
+      await playerTypesAndSubmitsGuess("WRONG");
+      await playerTypesAndSubmitsGuess("WRONG");
+
+      expect(wrapper.find<HTMLInputElement>("input[type=text]").element.value).toEqual("WRONG");
     })
   })
 
