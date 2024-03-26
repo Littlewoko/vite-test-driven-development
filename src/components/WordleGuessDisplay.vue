@@ -7,9 +7,9 @@ const props = defineProps<{ guess: string; answer?: string }>()
 
 const getFeedback = (letter : string, position: number) => {
   if(!props.answer || !letter || letter === ' ') return null;
-  
 
-  if(letter === props.answer[position]) return 'correct';
+  const expectedLetter = props.answer[position];
+  if(letter === expectedLetter) return 'correct';
 
   if(props.answer.includes(letter)) return 'almost';
 
