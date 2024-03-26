@@ -39,10 +39,10 @@ const onSubmit = (guess: string): void => {
 
 <template>
   <template
-    v-for="(guess, index) in guessesSubmitted"
-    :key="`${guess}-${index}`"
+    v-for="index in 6"
+    :key="`${index}`"
   >
-    <WordleGuessDisplay :guess="guess" />
+    <WordleGuessDisplay :guess="guessesSubmitted[index - 1] ?? ''" />
   </template>
   <WordleGuessInput @guess-submitted="onSubmit" />
 
