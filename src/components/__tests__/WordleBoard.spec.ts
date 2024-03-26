@@ -1,6 +1,7 @@
 import { VueWrapper, mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
 import { VICTORY_MESSAGE, DEFEAT_MESSAGE, WORD_SIZE, MAX_GUESSES_COUNT } from "@/settings";
+import WordleGuessDisplay from '../WordleGuessDisplay.vue';
 
 describe('Wordle Board', () => {
   const wordOfTheDay = "TESTS";
@@ -168,5 +169,34 @@ describe('Wordle Board', () => {
     for (const guess of guesses) {
       expect(wrapper.text()).toContain(guess);
     }
+  })
+
+  describe(`The game should display ${MAX_GUESSES_COUNT + 1} fields when in play, and ${MAX_GUESSES_COUNT} when game ends`, async () => {
+    test(`there should be exactly ${MAX_GUESSES_COUNT + 1} display fields when the game is in play`, async () => {
+      expect(wrapper.findAllComponents(WordleGuessDisplay)).toHaveLength(MAX_GUESSES_COUNT + 1);
+    })
+
+    test(`there should be exactly ${MAX_GUESSES_COUNT} display fields when the player wins the game`, async () => {
+      await playerSubmitsGuess(wordOfTheDay);
+      
+      expect(wrapper.findAllComponents(WordleGuessDisplay)).toHaveLength(MAX_GUESSES_COUNT);
+    })
+
+    test(`there should be exactly ${MAX_GUESSES_COUNT} display fields when the player loses the game`, async () => {
+      const guesses = [
+        "HELLO",
+        "GUESS",
+        "MAKER",
+        "HATER",
+        "CODER",
+        "MANEB"
+      ]
+
+      for (let i = 0; i < guesses.length; i++) {
+        await playerSubmitsGuess(guesses[i]);
+      }
+      
+      expect(wrapper.findAllComponents(WordleGuessDisplay)).toHaveLength(MAX_GUESSES_COUNT);
+    })
   })
 })
