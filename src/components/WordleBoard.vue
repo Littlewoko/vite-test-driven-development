@@ -24,22 +24,32 @@ const guessesSubmitted = ref<string[]>([]);
 
 const isGameOver = computed(() => {
   const allGuessesUsed = guessesSubmitted.value.length === MAX_GUESSES_COUNT;
-  const correctGuessPresent = guessesSubmitted.value.includes(props.wordOfTheDay);
-  return allGuessesUsed || correctGuessPresent; 
-})
+  const correctGuessPresent = guessesSubmitted.value.includes(
+    props.wordOfTheDay
+  );
+  return allGuessesUsed || correctGuessPresent;
+});
 
-const onSubmit = (guess: string) : void => {
-  console.log(guess)
+const onSubmit = (guess: string): void => {
+  console.log(guess);
   guessesSubmitted.value.push(guess);
 };
-
 </script>
 
 <template>
+  <ul>
+    <li
+      v-for="(guess, index) in guessesSubmitted"
+      :key="`${guess}-${index}`"
+      v-text="guess"
+    />
+  </ul>
   <WordleGuessInput @guess-submitted="onSubmit" />
 
   <p v-if="isGameOver" class="end-of-game">
-    {{ guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
+    {{
+      guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE
+    }}
   </p>
 </template>
 
@@ -48,8 +58,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem
-
+  margin-top: 3rem;
 }
 .end-of-game {
   font-size: 3rem;
