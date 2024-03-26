@@ -222,4 +222,16 @@ describe('Wordle Board', () => {
       expect(wrapper.findAllComponents(WordleGuessDisplay)).toHaveLength(MAX_GUESSES_COUNT);
     })
   })
+
+  describe("Player hints and feedback", () => {
+    test("hints are not displayed until the user submits a guess", async () => {
+      expect(wrapper.find("[data-letter-feedback]").exists(), 'feedback was rendered before guess submission').exist.toBe(false);
+
+      await playerTypesGuess(wordOfTheDay);
+      expect(wrapper.find("[data-letter-feedback]").exists(), 'feedback was rendered while the user was typing but before submission').exist.toBe(false);
+
+      await playerSubmitsGuess();
+      expect(wrapper.find("[data-letter-feedback]").exists(), 'feedback was not provided after submission').exist.toBe(true);
+    })
+  })
 })
