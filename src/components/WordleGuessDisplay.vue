@@ -31,6 +31,7 @@ defineProps({
   gap: 0.25rem;
   width: 100%;
   padding: 0;
+  margin:0;
   justify-content: center;
 }
 
@@ -43,6 +44,7 @@ defineProps({
   align-items: center;
   font-size: 3rem;
   font-weight: bold;
+  margin-bottom: 0.35rem;
 }
 
 li:not([data-letter=" "]) {
