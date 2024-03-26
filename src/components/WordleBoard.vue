@@ -1,10 +1,13 @@
 <script setup lang="ts">
 // vue imports
-import { ref, computed, watch } from "vue";
+import { ref } from "vue";
 
 // constants
-import { VICTORY_MESSAGE, DEFEAT_MESSAGE, WORD_SIZE } from "@/settings";
+import { VICTORY_MESSAGE, DEFEAT_MESSAGE } from "@/settings";
 import englishWords from "@/englishWordsWith5Letters.json";
+
+// components
+import WordleGuessInput from "./WordleGuessInput.vue";
 
 defineProps({
   wordOfTheDay: {
@@ -16,37 +19,18 @@ defineProps({
   },
 });
 
-const guessInProgress = ref<string>("");
 const guessSubmitted = ref("");
 
-const onSubmit = () : void => {
-  if (
-    !englishWords
-      .map((word: string) => word.toUpperCase())
-      .includes(guessInProgress.value.toUpperCase())
-  )
-    return;
-
-  guessSubmitted.value = guessInProgress.value ?? "";
+const onSubmit = (guess: string) : void => {
+  console.log(guess)
+  guessSubmitted.value = guess ?? "";
 };
 
-watch(guessInProgress, (newVal) => {
-  newVal = newVal ?? "";
-  // guessInProgress.value = guessInProgress.value ?? "";
-
-guessInProgress.value = newVal
-    .slice(0, WORD_SIZE)
-    .toUpperCase()
-    .replace(/[^A-Z]+/gi, "");
-})
 </script>
 
 <template>
-  <input
-    type="text"
-    v-model="guessInProgress"
-    @keydown.enter="onSubmit"
-  />
+  <WordleGuessInput @guess-submitted="onSubmit" />
+
   <p v-if="guessSubmitted.length > 0">
     {{ guessSubmitted === wordOfTheDay ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
   </p>
