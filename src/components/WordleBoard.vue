@@ -38,11 +38,12 @@ const onSubmit = (guess: string): void => {
 </script>
 
 <template>
-  <ul>
-    <li v-for="(guess, index) in guessesSubmitted" :key="`${guess}-${index}`">
-      <WordleGuessDisplay :guess="guess" />
-    </li>
-  </ul>
+  <template
+    v-for="(guess, index) in guessesSubmitted"
+    :key="`${guess}-${index}`"
+  >
+    <WordleGuessDisplay :guess="guess" />
+  </template>
   <WordleGuessInput @guess-submitted="onSubmit" />
 
   <p v-if="isGameOver" class="end-of-game">
@@ -59,6 +60,7 @@ main {
   align-items: center;
   margin-top: 3rem;
 }
+
 .end-of-game {
   font-size: 3rem;
   animation: end-of-game-message-animation 700ms forwards;

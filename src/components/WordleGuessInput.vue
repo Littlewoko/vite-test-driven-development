@@ -6,6 +6,9 @@ import { ref, watch } from "vue";
 import { WORD_SIZE } from "@/settings";
 import englishWords from "@/englishWordsWith5Letters.json";
 
+// components
+import WordleGuessDisplay from "./WordleGuessDisplay.vue";
+
 const guessInProgress = ref<string>("");
 
 const emit = defineEmits<{
@@ -43,15 +46,7 @@ const keepFocus = (e: Event): void => {
 </script>
 
 <template>
-  <ul class="word">
-    <li
-      v-for="(letter, index) in guessInProgress.padEnd(WORD_SIZE, ' ')"
-      :key="`${letter}-${index}`"
-      :data-letter="letter"
-      class="letter"
-      v-text="letter"
-    />
-  </ul>
+  <WordleGuessDisplay :guess="guessInProgress"/>
 
   <input
     class="input"
@@ -67,40 +62,6 @@ const keepFocus = (e: Event): void => {
 .input {
   opacity: 0;
   position: absolute;
-}
-
-.word {
-  list-style: none;
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0.25rem;
-  width: 100%;
-  justify-content: center;
-}
-
-.letter {
-  border: 1px solid grey;
-  width: 2em;
-  height: 2em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3rem;
-  font-weight: bold;
-}
-
-li:not([data-letter=" "]) {
-  animation: pop 100ms;
-}
-
-@keyframes pop {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.4);
-  }
 }
 </style>
 

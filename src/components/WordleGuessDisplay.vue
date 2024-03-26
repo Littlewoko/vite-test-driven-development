@@ -1,40 +1,36 @@
 <script setup lang="ts">
 // constants
+import { WORD_SIZE } from "@/settings";
+
+// constants
 defineProps({
   guess: {
     type: String,
     required: true,
   },
 });
-
-
 </script>
 
 <template>
   <ul class="word">
     <li
-      v-for="(letter, index) in guess"
+      v-for="(letter, index) in guess.padEnd(WORD_SIZE, ' ')"
       :key="`${letter}-${index}`"
       :data-letter="letter"
       class="letter"
       v-text="letter"
     />
   </ul>
-
 </template>
 
 <style scoped>
-.input {
-  opacity: 0;
-  position: absolute;
-}
-
 .word {
   list-style: none;
   display: flex;
   flex-wrap: nowrap;
   gap: 0.25rem;
   width: 100%;
+  padding: 0;
   justify-content: center;
 }
 
