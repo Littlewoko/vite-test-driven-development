@@ -16,17 +16,31 @@ describe('Wordle Board', () => {
     await guessInput.trigger("keydown.enter");
   }
 
+  describe.each([
+    {numberOfGuesses: 0, shouldSeeDefeatMessage: false},
+    {numberOfGuesses: 1, shouldSeeDefeatMessage: false},
+    {numberOfGuesses: 2, shouldSeeDefeatMessage: false},
+    {numberOfGuesses: 3, shouldSeeDefeatMessage: false},
+    {numberOfGuesses: 4, shouldSeeDefeatMessage: false},
+    {numberOfGuesses: 5, shouldSeeDefeatMessage: false},
+    {numberOfGuesses: 6, shouldSeeDefeatMessage: true},
+  ])("a defeat message appears if the player makes 6 incorrect guesses", async ({numberOfGuesses, shouldSeeDefeatMessage}) => {
+    test(`therefor for ${numberOfGuesses}, a defeat message should ${shouldSeeDefeatMessage ? '' : 'not'} appear`, async () => {
+      for(let i = 0; i < numberOfGuesses; i++) {
+        await playerSubmitsGuess("WRONG");
+      }
+
+      if(shouldSeeDefeatMessage) {
+        expect(wrapper.text()).toContain(DEFEAT_MESSAGE);
+      } 
+    })
+  })
+
   describe("end of game messages", () => {
     test("A victory message appears when the user makes a guess that matches the word of the day", async () => {
       await playerSubmitsGuess(wordOfTheDay);
 
       expect(wrapper.text()).toContain(VICTORY_MESSAGE);
-    })
-
-    test("a defeat message appears if the user makes a guess that is incorrect", async () => {
-      await playerSubmitsGuess("WRONG");
-
-      expect(wrapper.text()).toContain(DEFEAT_MESSAGE);
     })
 
     test("no end-of-game message appears if the user has not yet made a guess", async () => {
@@ -48,7 +62,7 @@ describe('Wordle Board', () => {
         { wordOfTheDay: "tests", reason: "Word of the day must be all uppercase letters" },
         { wordOfTheDay: "ABCDE", reason: "Word of the day must be a real english word" },
       ]
-    )('if $s is provided then a warning is emitted because $s', async ({ wordOfTheDay }) => {
+    )('if $wordOfTheDay is provided then a warning is emitted because $reason', async ({ wordOfTheDay }) => {
       mount(WordleBoard, { props: { wordOfTheDay } })
 
       expect(console.warn).toHaveBeenCalled();

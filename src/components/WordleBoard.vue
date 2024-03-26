@@ -12,6 +12,7 @@ import WordleGuessInput from "./WordleGuessInput.vue";
 defineProps({
   wordOfTheDay: {
     type: String,
+    required: true,
     validator: (wordGiven: string) =>
       englishWords
         .map((word: string) => word.toUpperCase())
@@ -19,11 +20,11 @@ defineProps({
   },
 });
 
-const guessSubmitted = ref("");
+const guessesSubmitted = ref<string[]>([]);
 
 const onSubmit = (guess: string) : void => {
   console.log(guess)
-  guessSubmitted.value = guess ?? "";
+  guessesSubmitted.value.push(guess);
 };
 
 </script>
@@ -31,8 +32,8 @@ const onSubmit = (guess: string) : void => {
 <template>
   <WordleGuessInput @guess-submitted="onSubmit" />
 
-  <p v-if="guessSubmitted.length > 0" class="end-of-game">
-    {{ guessSubmitted === wordOfTheDay ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
+  <p v-if="guessesSubmitted.length === 6 || guessesSubmitted.includes(wordOfTheDay)" class="end-of-game">
+    {{ guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
   </p>
 </template>
 
