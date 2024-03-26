@@ -8,6 +8,7 @@ import englishWords from "@/englishWordsWith5Letters.json";
 
 // components
 import WordleGuessInput from "./WordleGuessInput.vue";
+import WordleGuessDisplay from "./WordleGuessDisplay.vue";
 
 const props = defineProps({
   wordOfTheDay: {
@@ -38,11 +39,9 @@ const onSubmit = (guess: string): void => {
 
 <template>
   <ul>
-    <li
-      v-for="(guess, index) in guessesSubmitted"
-      :key="`${guess}-${index}`"
-      v-text="guess"
-    />
+    <li v-for="(guess, index) in guessesSubmitted" :key="`${guess}-${index}`">
+      <WordleGuessDisplay :guess="guess" />
+    </li>
   </ul>
   <WordleGuessInput @guess-submitted="onSubmit" />
 
@@ -65,6 +64,11 @@ main {
   animation: end-of-game-message-animation 700ms forwards;
   white-space: nowrap;
   text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
 }
 
 @keyframes end-of-game-message-animation {
