@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // vue imports
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 // constants
 import { VICTORY_MESSAGE, DEFEAT_MESSAGE, MAX_GUESSES_COUNT } from "@/settings";
@@ -9,7 +9,7 @@ import englishWords from "@/englishWordsWith5Letters.json";
 // components
 import WordleGuessInput from "./WordleGuessInput.vue";
 
-defineProps({
+const props = defineProps({
   wordOfTheDay: {
     type: String,
     required: true,
@@ -22,6 +22,12 @@ defineProps({
 
 const guessesSubmitted = ref<string[]>([]);
 
+const isGameOver = computed(() => {
+  const allGuessesUsed = guessesSubmitted.value.length === MAX_GUESSES_COUNT;
+  const correctGuessPresent = guessesSubmitted.value.includes(props.wordOfTheDay);
+  return allGuessesUsed || correctGuessPresent; 
+})
+
 const onSubmit = (guess: string) : void => {
   console.log(guess)
   guessesSubmitted.value.push(guess);
@@ -32,7 +38,7 @@ const onSubmit = (guess: string) : void => {
 <template>
   <WordleGuessInput @guess-submitted="onSubmit" />
 
-  <p v-if="guessesSubmitted.length === MAX_GUESSES_COUNT || guessesSubmitted.includes(wordOfTheDay)" class="end-of-game">
+  <p v-if="isGameOver" class="end-of-game">
     {{ guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
   </p>
 </template>
