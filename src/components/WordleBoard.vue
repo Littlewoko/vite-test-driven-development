@@ -39,12 +39,14 @@ const onSubmit = (guess: string): void => {
 
 <template>
   <template
-    v-for="index in 6"
+    v-for="index in MAX_GUESSES_COUNT"
     :key="`${index}`"
   >
     <WordleGuessDisplay :guess="guessesSubmitted[index - 1] ?? ''" />
   </template>
-  <WordleGuessInput @guess-submitted="onSubmit" />
+
+
+  <WordleGuessInput @guess-submitted="onSubmit" :disabled="isGameOver"/>
 
   <p v-if="isGameOver" class="end-of-game">
     {{

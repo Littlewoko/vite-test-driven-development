@@ -11,6 +11,8 @@ import WordleGuessDisplay from "./WordleGuessDisplay.vue";
 
 const guessInProgress = ref<string>("");
 
+withDefaults(defineProps<{ disabled?: boolean }>(), { disabled: false });
+
 const emit = defineEmits<{
   "guess-submitted": [guess: string];
 }>();
@@ -46,7 +48,7 @@ const keepFocus = (e: Event): void => {
 </script>
 
 <template>
-  <WordleGuessDisplay :guess="guessInProgress"/>
+  <WordleGuessDisplay :guess="guessInProgress" />
 
   <input
     class="input"
@@ -55,6 +57,7 @@ const keepFocus = (e: Event): void => {
     @keydown.enter="onSubmit"
     autofocus
     @blur="keepFocus"
+    :disabled="disabled"
   />
 </template>
 

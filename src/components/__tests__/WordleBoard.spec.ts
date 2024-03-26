@@ -126,23 +126,46 @@ describe('Wordle Board', () => {
       await playerSubmitsGuess("456");
       expect(wrapper.find<HTMLInputElement>("input[type=text]").element.value).toEqual("");
     })
+
+    test("The player can no longer type after the max amount of guesses have been made", async () => {
+      const guesses = [
+        "HELLO",
+        "GUESS",
+        "MAKER",
+        "HATER",
+        "CODER",
+        "MANEB"
+      ]
+
+      for (let i = 0; i < guesses.length; i++) {
+        await playerSubmitsGuess(guesses[i]);
+      }
+
+      expect(wrapper.find("input[type=text").attributes("disabled")).not.toBeUndefined();
+    })
+
+    test("The player can no longer type after a correct guess has been made", async () => {
+      await playerSubmitsGuess(wordOfTheDay);
+
+      expect(wrapper.find("input[type=text").attributes("disabled")).not.toBeUndefined();
+    })
   })
 
   test("all previous guesses done by the player are visible on the page", async () => {
     const guesses = [
       "HELLO",
-      "GUESS", 
-      "MAKER", 
-      "HATER", 
-      "CODER", 
+      "GUESS",
+      "MAKER",
+      "HATER",
+      "CODER",
       "MANEB"
     ]
 
-    for(const guess of guesses) {
+    for (const guess of guesses) {
       await playerSubmitsGuess(guess);
     }
 
-    for(const guess of guesses) {
+    for (const guess of guesses) {
       expect(wrapper.text()).toContain(guess);
     }
   })
