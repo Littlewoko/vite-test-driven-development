@@ -31,8 +31,36 @@ const onSubmit = (guess: string) : void => {
 <template>
   <WordleGuessInput @guess-submitted="onSubmit" />
 
-  <p v-if="guessSubmitted.length > 0">
+  <p v-if="guessSubmitted.length > 0" class="end-of-game">
     {{ guessSubmitted === wordOfTheDay ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
   </p>
 </template>
+
+<style scoped>
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem
+
+}
+.end-of-game {
+  font-size: 3rem;
+  animation: end-of-game-message-animation 700ms forwards;
+  white-space: nowrap;
+  text-align: center;
+}
+
+@keyframes end-of-game-message-animation {
+  0% {
+    opacity: 0;
+    transform: rotateZ(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(2rem);
+  }
+}
+</style>
 
