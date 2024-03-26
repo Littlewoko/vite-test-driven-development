@@ -11,10 +11,12 @@ describe('Wordle Board', () => {
     wrapper = mount(WordleBoard, { props: { wordOfTheDay } })
   })
 
+  async function playerTypesGuess(guess: string) {
+    await wrapper.find("input[type=text]").setValue(guess);
+  }
   async function playerTypesAndSubmitsGuess(guess: string) {
-    const guessInput = wrapper.find("input[type=text]");
-    await guessInput.setValue(guess);
-    await guessInput.trigger("keydown.enter");
+    await playerTypesGuess(guess);
+    await wrapper.find("input[type=text]").trigger("keydown.enter");
   }
 
   describe.each(
@@ -178,7 +180,7 @@ describe('Wordle Board', () => {
 
     test(`there should be exactly ${MAX_GUESSES_COUNT} display fields when the player wins the game`, async () => {
       await playerTypesAndSubmitsGuess(wordOfTheDay);
-      
+
       expect(wrapper.findAllComponents(WordleGuessDisplay)).toHaveLength(MAX_GUESSES_COUNT);
     })
 
@@ -195,7 +197,7 @@ describe('Wordle Board', () => {
       for (let i = 0; i < guesses.length; i++) {
         await playerTypesAndSubmitsGuess(guesses[i]);
       }
-      
+
       expect(wrapper.findAllComponents(WordleGuessDisplay)).toHaveLength(MAX_GUESSES_COUNT);
     })
   })
