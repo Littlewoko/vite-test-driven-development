@@ -90,6 +90,12 @@ describe('Wordle Board', () => {
       expect(document.activeElement).toBe(wrapper.find("input[type=text").element);
     })
 
+    test("player input is cleared after each submission", async () => {
+      await playerSubmitsGuess("HELLO");
+
+      expect(wrapper.find<HTMLInputElement>("input[type=text").element.value).toEqual("");
+    })
+
     test(`player guesses are limited to 5 letters`, async () => {
       await playerSubmitsGuess(wordOfTheDay + "EXTRA");
 

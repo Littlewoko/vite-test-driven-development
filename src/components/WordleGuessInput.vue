@@ -21,6 +21,7 @@ const onSubmit = (): void => {
     return;
 
   emit("guess-submitted", guessInProgress.value);
+  guessInProgress.value = "";
 };
 
 watch(guessInProgress, (newVal) => {
