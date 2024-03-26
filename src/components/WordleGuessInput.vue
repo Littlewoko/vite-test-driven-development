@@ -10,6 +10,8 @@ import englishWords from "@/englishWordsWith5Letters.json";
 import WordleGuessDisplay from "./WordleGuessDisplay.vue";
 
 const guessInProgress = ref<string>("");
+const hasFailedValidation = ref<boolean>(false);
+const shakeTimeout = ref<NodeJS.Timeout | null>(null);
 
 withDefaults(defineProps<{ disabled?: boolean }>(), { disabled: false });
 
@@ -18,12 +20,24 @@ const emit = defineEmits<{
 }>();
 
 const onSubmit = (): void => {
+  if (shakeTimeout.value) {
+    clearTimeout(shakeTimeout.value);
+  }
+
   if (
     !englishWords
       .map((word: string) => word.toUpperCase())
       .includes(guessInProgress.value.toUpperCase())
-  )
+  ) {
+    hasFailedValidation.value = true;
+
+    shakeTimeout.value = setTimeout(
+      () => (hasFailedValidation.value = false),
+      500
+    );
+
     return;
+  }
 
   emit("guess-submitted", guessInProgress.value);
   guessInProgress.value = "";
@@ -48,7 +62,11 @@ const keepFocus = (e: Event): void => {
 </script>
 
 <template>
-  <WordleGuessDisplay v-if="!disabled" :guess="guessInProgress" />
+  <WordleGuessDisplay
+    v-if="!disabled"
+    :class="{ shake: hasFailedValidation }"
+    :guess="guessInProgress"
+  />
 
   <input
     class="input"
@@ -65,6 +83,26 @@ const keepFocus = (e: Event): void => {
 .input {
   opacity: 0;
   position: absolute;
+}
+
+.shake {
+  animation: shake;
+  animation-duration: 100ms;
+  animation-iteration-count: 2;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(-2%);
+  }
+
+  25% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(2%);
+  }
 }
 </style>
 

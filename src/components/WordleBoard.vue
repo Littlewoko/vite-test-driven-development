@@ -44,7 +44,8 @@ const onSubmit = (guess: string): void => {
   >
     <WordleGuessDisplay :guess="guessesSubmitted[index - 1] ?? ''" />
   </template>
-
+  
+  <br />
 
   <WordleGuessInput @guess-submitted="onSubmit" :disabled="isGameOver"/>
 
@@ -68,11 +69,6 @@ main {
   animation: end-of-game-message-animation 700ms forwards;
   white-space: nowrap;
   text-align: center;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
 }
 
 @keyframes end-of-game-message-animation {
