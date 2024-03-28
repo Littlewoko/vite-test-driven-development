@@ -15,9 +15,17 @@ const props = defineProps({
     required: false,
   },
 });
+
+const emit = defineEmits<{
+  (e: 'letter-clicked', letter: string): void
+}>()
+
+const handleClick = (e: Event) => {
+    emit('letter-clicked', props.letter);
+}
 </script>
 
 
 <template>
-  <button :data-key="letter" :data-used="used ?? false">{{ letter }}</button>
+  <button :data-key="letter" :data-used="used ?? false" @click="handleClick">{{ letter }}</button>
 </template>

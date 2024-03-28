@@ -9,7 +9,6 @@ import englishWords from "@/englishWordsWith5Letters.json";
 // components
 import WordleGuessInput from "./WordleGuessInput.vue";
 import WordleGuessDisplay from "./WordleGuessDisplay.vue";
-import WordleLetterDisplay from "./WordleLetterDisplay.vue";
 
 const props = defineProps({
   wordOfTheDay: {
@@ -24,7 +23,6 @@ const props = defineProps({
 
 const guessesSubmitted = ref<string[]>([]);
 
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const isGameOver = computed(() => {
   const allGuessesUsed = guessesSubmitted.value.length === MAX_GUESSES_COUNT;
@@ -39,9 +37,6 @@ const onSubmit = (guess: string): void => {
   guessesSubmitted.value.push(guess);
 };
 
-const letterUsed = (letter : string) : boolean => {
-  return guessesSubmitted.value.some(word => word.includes(letter));
-}
 </script>
 
 <template>
@@ -62,9 +57,7 @@ const letterUsed = (letter : string) : boolean => {
     }}
   </p>
 
-  <div v-for="letter in alphabet" :key="letter">
-    <WordleLetterDisplay :letter="letter" :used="letterUsed(letter)"/>
-  </div>
+
 </template>
 
 <style scoped>

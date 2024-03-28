@@ -303,8 +303,17 @@ describe('Wordle Board', () => {
       }
     });
 
-    test.todo("player can make a guess purely using the on screen keyboard");
-  })
+    test("player can make a guess purely using the on screen keyboard", async () => {
+      const GUESS = "WORDS";
+      const inputElement = wrapper.find("input[type=text]").element as HTMLInputElement;
+      expect(inputElement.value).toBe("");
 
-  test.todo("Implement on screen keyboard that shows which letters player has used");
+      for (const letter of GUESS) {
+        const button = wrapper.find(`button[data-key="${letter}"]`);
+        await button.trigger('click');
+      }
+
+      expect(inputElement.value).toBe(GUESS);
+    });
+  })
 })

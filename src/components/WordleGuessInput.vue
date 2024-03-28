@@ -8,11 +8,13 @@ import englishWords from "@/englishWordsWith5Letters.json";
 
 // components
 import WordleGuessDisplay from "./WordleGuessDisplay.vue";
+import WordleLetterDisplay from "./WordleLetterDisplay.vue";
 
 const guessInProgress = ref<string>("");
 const hasFailedValidation = ref<boolean>(false);
 const shakeTimeout = ref<NodeJS.Timeout | null>(null);
 const guessHistory = reactive<string[]>([]);
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 withDefaults(defineProps<{ disabled?: boolean }>(), { disabled: false });
 
@@ -26,8 +28,8 @@ const onSubmit = (): void => {
   }
 
   const isNotRealWord = !englishWords
-      .map((word: string) => word.toUpperCase())
-      .includes(guessInProgress.value.toUpperCase())
+    .map((word: string) => word.toUpperCase())
+    .includes(guessInProgress.value.toUpperCase());
 
   if (isNotRealWord || guessHistory.includes(guessInProgress.value)) {
     hasFailedValidation.value = true;
@@ -61,6 +63,15 @@ const keepFocus = (e: Event): void => {
     target.focus();
   }
 };
+
+const letterUsed = (letter : string) : boolean => {
+  return guessHistory.some(word => word.includes(letter));
+}
+
+const handleLetterClicked = (letter: string) => {
+  guessInProgress.value += letter;
+}
+
 </script>
 
 <template>
@@ -80,6 +91,10 @@ const keepFocus = (e: Event): void => {
     @blur="keepFocus"
     :disabled="disabled"
   />
+
+  <div v-for="letter in alphabet" :key="letter">
+    <WordleLetterDisplay :letter="letter" :used="letterUsed(letter)" @letter-clicked="handleLetterClicked"/>
+  </div>
 </template>
 
 <style scoped>
