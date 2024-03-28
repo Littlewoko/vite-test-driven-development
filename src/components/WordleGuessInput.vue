@@ -71,6 +71,7 @@ const keepFocus = (e: Event): void => {
   />
 
   <input
+    id="wordleInput"
     class="input"
     type="text"
     v-model="guessInProgress"

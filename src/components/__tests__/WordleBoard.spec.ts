@@ -2,6 +2,7 @@ import { VueWrapper, mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
 import { VICTORY_MESSAGE, DEFEAT_MESSAGE, WORD_SIZE, MAX_GUESSES_COUNT } from "@/settings";
 import WordleGuessDisplay from '../WordleGuessDisplay.vue';
+import WordleLetterDisplay from '../WordleLetterDisplay.vue';
 
 describe('Wordle Board', () => {
   const wordOfTheDay = "TESTS";
@@ -101,10 +102,10 @@ describe('Wordle Board', () => {
         attachTo: "#app",
       });
 
-      expect(wrapper.find("input[type=text").attributes("autofocus")).not.toBeUndefined();
+      expect(wrapper.find("input[type=text]").attributes("autofocus")).not.toBeUndefined();
 
-      await wrapper.find("input[type=text").trigger("blur");
-      expect(document.activeElement).toBe(wrapper.find("input[type=text").element);
+      await wrapper.find("input[type=text]").trigger("blur");
+      expect(document.activeElement).toBe(wrapper.find("input[type=text]").element);
     })
 
     test("player input is cleared after each submission", async () => {
@@ -274,6 +275,35 @@ describe('Wordle Board', () => {
 
       expect(actualFeedback).toEqual(expectedFeedback);
     });
+  })
+
+  describe("on screen keyboard", () => {
+    test("on screen keyboard indicates letters the player has used in guesses", async () => {
+      const GUESS = "TOAST";
+
+      let usedButtons = wrapper.findAll("[data-used=true]");
+      expect(usedButtons.length).toBe(0);
+
+      await playerTypesAndSubmitsGuess(GUESS);
+      usedButtons = wrapper.findAll("[data-used=true]");
+      expect(usedButtons.length).toBe(4);
+
+      usedButtons.forEach((elementWrapper) => {
+        const dataKey = elementWrapper.attributes("data-key");
+        expect(GUESS.includes(dataKey as string)).toBe(true);
+      });
+    });
+
+    test("on screen keybaord displays all possible letters for input", async () => {
+      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+      for (const letter of alphabet) {
+        const button = wrapper.find(`button[data-key="${letter}"]`);
+        expect(button.exists()).toBe(true);
+      }
+    });
+
+    test.todo("player can make a guess purely using the on screen keyboard");
   })
 
   test.todo("Implement on screen keyboard that shows which letters player has used");
