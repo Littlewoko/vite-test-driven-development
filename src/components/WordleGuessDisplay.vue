@@ -3,18 +3,20 @@
 import { WORD_SIZE } from "@/settings";
 
 // constants
-const props = defineProps<{ guess: string; answer?: string }>()
+const props = defineProps<{ guess: string; answer?: string }>();
 
-const getFeedback = (letter : string, position: number) => {
-  if(!props.answer || !letter || letter === ' ') return null;
+const getFeedback = (letter: string, position: number) => {
+  if (!props.answer || !letter || letter === " ") return null;
 
   const expectedLetter = props.answer[position];
-  if(letter === expectedLetter) return 'correct';
+  if (letter === expectedLetter) return "correct";
 
-  if(props.answer.includes(letter)) return 'almost';
+  if (props.answer.includes(letter)) return "almost";
 
-  return 'incorrect'
-}
+  return "incorrect";
+};
+
+
 </script>
 
 <template>
@@ -57,21 +59,22 @@ const getFeedback = (letter : string, position: number) => {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 0.35rem;
+  user-select: none;
 }
 
 li:not([data-letter=" "]) {
   animation: pop 100ms;
 }
 
-[data-letter-feedback=correct] {
+[data-letter-feedback="correct"] {
   --back-color: hsl(120, 25%, 65%);
 }
 
-[data-letter-feedback=almost] {
+[data-letter-feedback="almost"] {
   --back-color: hsl(40, 65%, 48%);
 }
 
-[data-letter-feedback=incorrect] {
+[data-letter-feedback="incorrect"] {
   --back-color: hsl(0, 0%, 70%);
 }
 

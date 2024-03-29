@@ -155,7 +155,7 @@ const handleLetterClicked = (letter: string) => {
 .on-screen-keyboard {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
   width: fit-content;
 }
 
@@ -168,7 +168,7 @@ const handleLetterClicked = (letter: string) => {
 .keyboard-line {
   display: flex;
   flex-wrap: nowrap;
-  gap: 0.5rem;
+  gap: 0.4rem;
   width: 100%;
   justify-content: center;
 }
