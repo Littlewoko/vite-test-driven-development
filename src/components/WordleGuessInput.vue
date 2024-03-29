@@ -73,9 +73,11 @@ const letterUsed = (letter: string): boolean => {
 };
 
 const handleLetterClicked = (letter: string) => {
-  guessInProgress.value += letter;
-  console.log(guessInProgress.value);
-  console.log("clicked")
+  if(letter != "-") {
+    guessInProgress.value += letter;
+  } else {
+    guessInProgress.value = guessInProgress.value.slice(0, guessInProgress.value.length - 1);
+  }
 };
 </script>
 
@@ -100,6 +102,7 @@ const handleLetterClicked = (letter: string) => {
   <div class="on-screen-keyboard">
     <div>
       <WordleLetterDisplay letter="+" :used="false" :action="onSubmit"/>
+      <WordleLetterDisplay letter="-" :used="false" :action="handleLetterClicked"/>
     </div>
     <div class="keyboard-line">
       <WordleLetterDisplay

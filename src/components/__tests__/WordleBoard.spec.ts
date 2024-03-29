@@ -324,5 +324,18 @@ describe('Wordle Board', () => {
 
       expect(wrapper.text()).toContain(VICTORY_MESSAGE);
     })
+
+    test("player can delete their in progress guess using the on screen keyboard", async () => {
+      await playerTypesGuess(wordOfTheDay);
+      const button = wrapper.find(`button[data-key="-"]`);
+
+      const inputElement = wrapper.find("input[type=text]").element as HTMLInputElement;
+      expect(inputElement.value).toBe(wordOfTheDay);
+      
+      for(let i = wordOfTheDay.length - 1; i >= 0; i--) {
+        await button.trigger('click');
+        expect(inputElement.value).toBe(wordOfTheDay.slice(0, i));
+      }
+    })
   })
 })
