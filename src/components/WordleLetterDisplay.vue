@@ -49,8 +49,8 @@ const handleClick = (e: Event) => {
 button {
   background-color: #c9c9c9;
   border: none;
-  min-width: 3rem;
-  min-height: 3rem;
+  min-width: 2rem;
+  min-height: 2rem;
   border-radius: 10%;
   transition: 50ms all;
   display: flex;

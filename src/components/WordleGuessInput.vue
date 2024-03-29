@@ -73,10 +73,13 @@ const letterUsed = (letter: string): boolean => {
 };
 
 const handleLetterClicked = (letter: string) => {
-  if(letter != "-") {
+  if (letter != "-") {
     guessInProgress.value += letter;
   } else {
-    guessInProgress.value = guessInProgress.value.slice(0, guessInProgress.value.length - 1);
+    guessInProgress.value = guessInProgress.value.slice(
+      0,
+      guessInProgress.value.length - 1
+    );
   }
 };
 </script>
@@ -99,37 +102,46 @@ const handleLetterClicked = (letter: string) => {
     :disabled="disabled"
   />
 
-  <div class="on-screen-keyboard">
-    <div class="action-row">
-      <WordleLetterDisplay letter="+" :used="false" :action="onSubmit"/>
-      <WordleLetterDisplay letter="-" :used="false" :action="handleLetterClicked"/>
-    </div>
-    <div class="keyboard-line">
-      <WordleLetterDisplay
-        v-for="letter in QWERTYUIOP"
-        :key="letter"
-        :letter="letter"
-        :used="letterUsed(letter)"
-        :action="handleLetterClicked"
-      />
-    </div>
-    <div class="keyboard-line">
-      <WordleLetterDisplay
-        v-for="letter in ASDFGHJKL"
-        :key="letter"
-        :letter="letter"
-        :used="letterUsed(letter)"
-        :action="handleLetterClicked"
-      />
-    </div>
-    <div class="keyboard-line">
-      <WordleLetterDisplay
-        v-for="letter in ZXCVBNM"
-        :key="letter"
-        :letter="letter"
-        :used="letterUsed(letter)"
-        :action="handleLetterClicked"
-      />
+  <br />
+
+  <div style="display: flex; width: 100%; justify-content: center;">
+    <div class="on-screen-keyboard">
+      <div class="action-row">
+        <WordleLetterDisplay letter="+" :used="false" :action="onSubmit" />
+        <WordleLetterDisplay
+          letter="-"
+          :used="false"
+          :action="handleLetterClicked"
+        />
+      </div>
+
+      <div class="keyboard-line">
+        <WordleLetterDisplay
+          v-for="letter in QWERTYUIOP"
+          :key="letter"
+          :letter="letter"
+          :used="letterUsed(letter)"
+          :action="handleLetterClicked"
+        />
+      </div>
+      <div class="keyboard-line">
+        <WordleLetterDisplay
+          v-for="letter in ASDFGHJKL"
+          :key="letter"
+          :letter="letter"
+          :used="letterUsed(letter)"
+          :action="handleLetterClicked"
+        />
+      </div>
+      <div class="keyboard-line">
+        <WordleLetterDisplay
+          v-for="letter in ZXCVBNM"
+          :key="letter"
+          :letter="letter"
+          :used="letterUsed(letter)"
+          :action="handleLetterClicked"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -141,23 +153,22 @@ const handleLetterClicked = (letter: string) => {
 }
 
 .on-screen-keyboard {
-  margin-top: 5rem;
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 0.5rem;
+  width: fit-content;
 }
 
 .action-row {
   display: flex;
   justify-content: space-between;
-  padding-left: 5rem;
-  padding-right: 5rem;
+  margin-bottom: 1rem;
 }
 
 .keyboard-line {
   display: flex;
   flex-wrap: nowrap;
-  gap: .5rem;
+  gap: 0.5rem;
   width: 100%;
   justify-content: center;
 }

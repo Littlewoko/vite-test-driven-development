@@ -49,12 +49,12 @@ const getFeedback = (letter : string, position: number) => {
   background-color: var(--front-color);
   border: 1px solid --back-color;
   border: 1px solid grey;
-  width: 2em;
-  height: 2em;
+  width: 4rem;
+  height: 4rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 0.35rem;
 }

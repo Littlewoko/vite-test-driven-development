@@ -40,6 +40,7 @@ const onSubmit = (guess: string): void => {
 </script>
 
 <template>
+  <br />
   <template
     v-for="index in MAX_GUESSES_COUNT"
     :key="`${index}`"
@@ -49,13 +50,13 @@ const onSubmit = (guess: string): void => {
   
   <br />
 
-  <WordleGuessInput @guess-submitted="onSubmit" :disabled="isGameOver"/>
-
   <p v-if="isGameOver" class="end-of-game">
     {{
       guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE
     }}
   </p>
+
+  <WordleGuessInput @guess-submitted="onSubmit" :disabled="isGameOver"/>
 </template>
 
 <style scoped>
@@ -67,10 +68,13 @@ main {
 }
 
 .end-of-game {
-  font-size: 3rem;
+  font-size: 2rem;
   animation: end-of-game-message-animation 700ms forwards;
   white-space: nowrap;
   text-align: center;
+  height: 4rem;
+  position: relative;
+  top: -2rem;
 }
 
 @keyframes end-of-game-message-animation {
