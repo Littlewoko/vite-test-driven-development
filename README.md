@@ -1,6 +1,8 @@
 # wordle-text-drivel-development
 Creating a clone of the app wordle to demonstrate test driven development wuth Vue.js 3 and typescript
 
+https://vitest-wordle.web.app/
+
 |             | E2E | Feature | Unit |
 | :---------------- | :------: | :----: | :---: |
 | implementation awareness        |   minmal   | little| Greater |
