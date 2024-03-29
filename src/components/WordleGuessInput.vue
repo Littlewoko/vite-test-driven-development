@@ -14,6 +14,10 @@ const guessInProgress = ref<string>("");
 const hasFailedValidation = ref<boolean>(false);
 const shakeTimeout = ref<NodeJS.Timeout | null>(null);
 const guessHistory = reactive<string[]>([]);
+const QWERTYUIOP = "QWERTYUIOP";
+const ASDFGHJKL = "ASDFGHJKL";
+const ZXCVBNM = "ZXCVBNM";
+
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 withDefaults(defineProps<{ disabled?: boolean }>(), { disabled: false });
@@ -64,14 +68,13 @@ const keepFocus = (e: Event): void => {
   }
 };
 
-const letterUsed = (letter : string) : boolean => {
-  return guessHistory.some(word => word.includes(letter));
-}
+const letterUsed = (letter: string): boolean => {
+  return guessHistory.some((word) => word.includes(letter));
+};
 
 const handleLetterClicked = (letter: string) => {
   guessInProgress.value += letter;
-}
-
+};
 </script>
 
 <template>
@@ -92,8 +95,34 @@ const handleLetterClicked = (letter: string) => {
     :disabled="disabled"
   />
 
-  <div v-for="letter in alphabet" :key="letter">
-    <WordleLetterDisplay :letter="letter" :used="letterUsed(letter)" @letter-clicked="handleLetterClicked"/>
+  <div class="on-screen-keyboard">
+    <div class="keyboard-line">
+      <WordleLetterDisplay
+        v-for="letter in QWERTYUIOP"
+        :key="letter"
+        :letter="letter"
+        :used="letterUsed(letter)"
+        :action="handleLetterClicked"
+      />
+    </div>
+    <div class="keyboard-line">
+      <WordleLetterDisplay
+        v-for="letter in ASDFGHJKL"
+        :key="letter"
+        :letter="letter"
+        :used="letterUsed(letter)"
+        :action="handleLetterClicked"
+      />
+    </div>
+    <div class="keyboard-line">
+      <WordleLetterDisplay
+        v-for="letter in ZXCVBNM"
+        :key="letter"
+        :letter="letter"
+        :used="letterUsed(letter)"
+        :action="handleLetterClicked"
+      />
+    </div>
   </div>
 </template>
 
@@ -101,6 +130,21 @@ const handleLetterClicked = (letter: string) => {
 .input {
   opacity: 0;
   position: absolute;
+}
+
+.on-screen-keyboard {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.keyboard-line {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: .5rem;
+  width: 100%;
+  justify-content: center;
 }
 
 .shake {

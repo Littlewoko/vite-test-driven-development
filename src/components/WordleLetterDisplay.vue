@@ -14,14 +14,14 @@ const props = defineProps({
     type: Boolean,
     required: false,
   },
+  action: {
+    type: Function,
+    required: true
+  }
 });
 
-const emit = defineEmits<{
-  (e: 'letter-clicked', letter: string): void
-}>()
-
 const handleClick = (e: Event) => {
-    emit('letter-clicked', props.letter);
+    props.action(props.letter);
 }
 </script>
 
@@ -29,3 +29,20 @@ const handleClick = (e: Event) => {
 <template>
   <button :data-key="letter" :data-used="used ?? false" @click="handleClick">{{ letter }}</button>
 </template>
+
+<style scoped>
+button {
+  background-color: #C9C9C9 ;
+  border: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 10%;
+  transition: 50ms all;
+}
+
+button:active {
+  transform: scale(1.2) translateY(-3rem);
+  background-color: black;
+  color: white;
+}
+</style>
