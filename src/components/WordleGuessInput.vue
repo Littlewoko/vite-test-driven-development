@@ -100,7 +100,7 @@ const handleLetterClicked = (letter: string) => {
   />
 
   <div class="on-screen-keyboard">
-    <div>
+    <div class="action-row">
       <WordleLetterDisplay letter="+" :used="false" :action="onSubmit"/>
       <WordleLetterDisplay letter="-" :used="false" :action="handleLetterClicked"/>
     </div>
@@ -145,6 +145,13 @@ const handleLetterClicked = (letter: string) => {
   display: flex;
   flex-direction: column;
   gap: .5rem;
+}
+
+.action-row {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 
 .keyboard-line {

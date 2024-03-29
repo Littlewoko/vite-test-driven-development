@@ -49,8 +49,8 @@ const handleClick = (e: Event) => {
 button {
   background-color: #c9c9c9;
   border: none;
-  width: 3rem;
-  height: 3rem;
+  min-width: 3rem;
+  min-height: 3rem;
   border-radius: 10%;
   transition: 50ms all;
   display: flex;
@@ -63,5 +63,9 @@ button:active {
   transform: scale(0.8);
   background-color: black;
   color: white;
+}
+
+button[data-used=true] {
+  background-color: #868685;
 }
 </style>
