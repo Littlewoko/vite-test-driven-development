@@ -15,8 +15,6 @@ const getFeedback = (letter: string, position: number) => {
 
   return "incorrect";
 };
-
-
 </script>
 
 <template>
@@ -60,6 +58,14 @@ const getFeedback = (letter: string, position: number) => {
   font-weight: bold;
   margin-bottom: 0.35rem;
   user-select: none;
+}
+
+@media (max-width: 400px) {
+  .letter {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5rem;
+  }
 }
 
 li:not([data-letter=" "]) {

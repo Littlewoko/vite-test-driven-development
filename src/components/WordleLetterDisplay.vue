@@ -40,28 +40,34 @@ const handleClick = (e: Event) => {
 };
 
 onMounted(() => {
-  document.addEventListener("keydown", (e : KeyboardEvent) => {
-    if(letterButton.value != null) {
-      if(e.key.toUpperCase() === display.value.toUpperCase()) {
+  document.addEventListener("keydown", (e: KeyboardEvent) => {
+    if (letterButton.value != null) {
+      if (e.key.toUpperCase() === display.value.toUpperCase()) {
         letterButton.value.setAttribute("data-active", "true");
       }
     }
-  })
+  });
 
-  document.addEventListener("keyup", (e : KeyboardEvent) => {
-    if(letterButton.value != null) {
-      console.log(e.key)
-      if(e.key.toUpperCase() === display.value.toUpperCase()) {
+  document.addEventListener("keyup", (e: KeyboardEvent) => {
+    if (letterButton.value != null) {
+      console.log(e.key);
+      if (e.key.toUpperCase() === display.value.toUpperCase()) {
         letterButton.value.setAttribute("data-active", "false");
       }
     }
-  })
-})
+  });
+});
 </script>
 
 
 <template>
-  <button ref="letterButton" :data-key="letter" :data-used="used ?? false" :data-active="false" @click="handleClick">
+  <button
+    ref="letterButton"
+    :data-key="letter"
+    :data-used="used ?? false"
+    :data-active="false"
+    @click="handleClick"
+  >
     {{ display }}
   </button>
 </template>
@@ -80,15 +86,22 @@ button {
   justify-content: center;
 }
 
-button:active, button[data-active=true] {
+button:active,
+button[data-active="true"] {
   transform: scale(0.8);
   background-color: black;
   color: white;
 }
 
-button[data-used=true] {
+button[data-used="true"] {
   background-color: #868685;
 }
 
-
+@media (max-width: 400px) {
+  button {
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+    border-radius: 10%;
+  }
+}
 </style>
