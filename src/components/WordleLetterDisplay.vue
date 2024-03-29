@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
   letter: {
@@ -22,38 +22,26 @@ const props = defineProps({
   },
 });
 
-const activeLetter = ref<HTMLDivElement | null>(null);
+const display = computed(() => {
+  switch (props.letter) {
+    case "+":
+      return "Enter";
+    case "-":
+      return "Backspace";
+    default:
+      return props.letter;
+  }
+});
 
 const handleClick = (e: Event) => {
   props.action(props.letter);
-};
-
-const showActiveLetter = (e: Event) => {
-  if (activeLetter.value) {
-    activeLetter.value.style.display = "flex";
-  }
-};
-
-const hideActiveLetter = (e: Event) => {
-  if (activeLetter.value) {
-    activeLetter.value.style.display = "none";
-  }
 };
 </script>
 
 
 <template>
-  <button
-    :data-key="letter"
-    :data-used="used ?? false"
-    @click="handleClick"
-    @mousedown="showActiveLetter"
-    @mouseup="hideActiveLetter"
-    @mouseleave="hideActiveLetter"
-    @mouseenter="showActiveLetter"
-  >
-    {{ letter }}
-    <div ref="activeLetter" class="clone" @mouseenter="hideActiveLetter">{{ letter }}</div>
+  <button :data-key="letter" :data-used="used ?? false" @click="handleClick">
+    {{ display }}
   </button>
 </template>
 
@@ -75,20 +63,5 @@ button:active {
   transform: scale(0.8);
   background-color: black;
   color: white;
-}
-
-.clone {
-  background-color: black;
-  border: none;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 10%;
-  transition: 50ms all;
-  position: absolute;
-  transform: translateY(-4em);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  display: none;
 }
 </style>
