@@ -82,6 +82,10 @@ const handleLetterClicked = (letter: string) => {
     );
   }
 };
+
+const isMobile = (): boolean => {
+  return navigator.maxTouchPoints > 0;
+};
 </script>
 
 <template>
@@ -100,11 +104,12 @@ const handleLetterClicked = (letter: string) => {
     autofocus
     @blur="keepFocus"
     :disabled="disabled"
+    :readonly="isMobile()"
   />
 
   <br />
 
-  <div style="display: flex; width: 100%; justify-content: center;">
+  <div style="display: flex; width: 100%; justify-content: center">
     <div class="on-screen-keyboard">
       <div class="action-row">
         <WordleLetterDisplay letter="+" :used="false" :action="onSubmit" />

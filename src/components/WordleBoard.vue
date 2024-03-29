@@ -33,7 +33,6 @@ const isGameOver = computed(() => {
 });
 
 const onSubmit = (guess: string): void => {
-  console.log(guess);
   guessesSubmitted.value.push(guess);
 };
 
@@ -50,10 +49,13 @@ const onSubmit = (guess: string): void => {
   
   <br />
 
-  <p v-if="isGameOver" class="end-of-game">
-    {{
-      guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE
-    }}
+  <p v-if="isGameOver && !guessesSubmitted.includes(wordOfTheDay)" class="end-of-game">
+      {{ DEFEAT_MESSAGE }}
+      <br>
+      {{ "Answer: " + wordOfTheDay.toUpperCase() }}
+  </p>
+  <p v-else-if="guessesSubmitted.includes(wordOfTheDay)" class="end-of-game">
+      {{ VICTORY_MESSAGE }}
   </p>
 
   <WordleGuessInput @guess-submitted="onSubmit" :disabled="isGameOver"/>

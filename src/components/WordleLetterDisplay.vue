@@ -50,7 +50,6 @@ onMounted(() => {
 
   document.addEventListener("keyup", (e: KeyboardEvent) => {
     if (letterButton.value != null) {
-      console.log(e.key);
       if (e.key.toUpperCase() === display.value.toUpperCase()) {
         letterButton.value.setAttribute("data-active", "false");
       }
