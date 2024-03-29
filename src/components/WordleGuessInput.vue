@@ -98,6 +98,9 @@ const handleLetterClicked = (letter: string) => {
   />
 
   <div class="on-screen-keyboard">
+    <div>
+      <WordleLetterDisplay letter="+" :used="false" :action="onSubmit"/>
+    </div>
     <div class="keyboard-line">
       <WordleLetterDisplay
         v-for="letter in QWERTYUIOP"

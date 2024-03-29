@@ -315,5 +315,14 @@ describe('Wordle Board', () => {
 
       expect(inputElement.value).toBe(GUESS);
     });
+
+    test("player can submit a guess using the on screen keyboard", async () => {
+      await playerTypesGuess(wordOfTheDay);
+
+      const button = wrapper.find(`button[data-key="+"]`);
+      await button.trigger('click');
+
+      expect(wrapper.text()).toContain(VICTORY_MESSAGE);
+    })
   })
 })

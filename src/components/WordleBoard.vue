@@ -56,8 +56,6 @@ const onSubmit = (guess: string): void => {
       guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE
     }}
   </p>
-
-
 </template>
 
 <style scoped>

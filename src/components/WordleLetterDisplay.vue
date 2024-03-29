@@ -6,7 +6,7 @@ const props = defineProps({
     type: String,
     required: true,
     validator: (letterGiven: string) => {
-      const pattern = /\b[A-Z]\b/;
+      const pattern = /[A-Z+-]/;
       const match = letterGiven.match(pattern);
 
       return match !== null && letterGiven.length === 1;
