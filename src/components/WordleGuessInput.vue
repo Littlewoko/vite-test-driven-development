@@ -74,6 +74,8 @@ const letterUsed = (letter: string): boolean => {
 
 const handleLetterClicked = (letter: string) => {
   guessInProgress.value += letter;
+  console.log(guessInProgress.value);
+  console.log("clicked")
 };
 </script>
 
